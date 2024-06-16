@@ -1,0 +1,116 @@
+version: "3.9"
+
+services:
+  sabnzbd:
+    image: ghcr.io/linuxserver/sabnzbd@sha256:ab89014bb120a092a67c3702b38a9c614e8d06fd6f62225edb8ce770f26fd08a
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/sabnzbd:/config
+      - /data/usenet:/data/usenet:rw
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+
+  arch-qbittorrentvpn:
+    image: binhex/arch-qbittorrentvpn:4.6.5-1-03
+    container_name: qbittorrentvpn
+    volumes:
+      - '/docker/appdata/qbitty:/config'
+      - '/data/torrents/:/data/torrents'
+      - '/etc/localtime:/etc/localtime:ro'
+    ports:
+      - '49550:49550'
+      - '49551:8118'
+    environment:
+      - VPN_ENABLED=yes
+      - VPN_PROV=protonvpn
+      - VPN_CLIENT=wireguard
+      - VPN_USER=rul3r23+pmp
+      - VPN_PASS=
+      - STRICT_PORT_FORWARD=yes
+      - LAN_NETWORK=10.0.0.0/24
+      - ENABLE_PRIVOXY=yes
+      - PUID=1000
+      - PGID=1000
+      - WEBUI_PORT=49550
+      - UMASK=1000
+      - DEBUG=false
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    privileged: true
+    network_mode: bridge
+    restart: unless-stopped
+
+  bazarr:
+    image: ghcr.io/linuxserver/bazarr@sha256:d2ec8002f118b22f03ed314cf866a196464ad4977142457c9401b542cf192bd7
+    ports:
+      - "6767:6767"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/bazarr:/config
+      - /data/media:/data/media
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+
+  lidarr:
+    image: ghcr.io/linuxserver/lidarr@sha256:a7d0282dcdbf5b11306cc4054c11b42252106b5e8494375231322822d31ac9f6
+    ports:
+      - "8686:8686"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/lidarr:/config
+      - /data:/data
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+
+  prowlarr:
+    image: ghcr.io/linuxserver/prowlarr@sha256:237e9a72c11c5350bf22e355759436ecd4fd660e820d5b556d9a9e436f25f6b9
+    ports:
+      - "9696:9696"
+    volumes:
+      - /docker/appdata/prowlarr:/config
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+
+  radarr:
+    image: ghcr.io/linuxserver/radarr@sha256:594fab7afdb1de2f61a82835f3f2377a6220d4940d4b49bfa95e82d8a6b13a95
+    ports:
+      - "7878:7878"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/radarr:/config
+      - /data:/data
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr@sha256:275467ba17d990bbc6301dec3cc76b042969836749de39067818759d0f3b407f
+    ports:
+      - "8989:8989"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/sonarr:/config
+      - /data:/data
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+
+networks:
+  default:
+    name: arrs_default
