@@ -1,0 +1,13 @@
+---
+services:
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:2.11.2
+    container_name: nginx-proxy-manager
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - /home/ruler/nginx/data:/data
+      - /home/ruler/nginx/letsencrypt:/etc/letsencrypt
+    restart: unless-stopped
