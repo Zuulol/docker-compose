@@ -1,0 +1,6 @@
+---
+services:
+    cloudflared:
+        image: cloudflare/cloudflared@sha256:3daf642dd14e67c8ba51063aa0abd76fe165ff4fdf0669e37ae356008fccfb74
+        restart: unless-stopped
+        command: tunnel --no-autoupdate run --token $CF_TOKEN
