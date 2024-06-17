@@ -1,0 +1,15 @@
+version: "3.6"
+services:
+    organizr:
+        container_name: organizr
+        hostname: organizr
+        image: organizr/organizr@sha256:1ce319d73cdfd2666ec7ef21e15907531fabc8a6f333c4ac61e2b2e9d2d162f5
+        restart: unless-stopped
+        ports:
+            - 9292:80
+        volumes:
+            - /home/ruler/organzir:/config
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=America/NewYork
