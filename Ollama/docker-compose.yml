@@ -12,8 +12,6 @@ services:
     name: ollama
 
 
----
-
 services:
   open-webui:
     image: ghcr.io/open-webui/open-webui:cuda
