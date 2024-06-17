@@ -8,7 +8,7 @@ services:
         ports:
             - 9292:80
         volumes:
-            - /home/ruler/organzir:/config
+            - /home/ruler/organzir/config:/config # try to map config folders to config folders
         environment:
             - PUID=1000
             - PGID=1000
