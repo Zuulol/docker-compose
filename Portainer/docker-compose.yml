@@ -1,5 +1,4 @@
 ---
-
 services:
   portainer:
     image: portainer/portainer-ce@sha256:a6f635877e0daa4aa39c1cbf4e73a31b35d342284588fa72fd8a91efb3c6a091
