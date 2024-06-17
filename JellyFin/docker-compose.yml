@@ -1,17 +1,14 @@
 ---
-
 services:
   jellyfin:
     image: ghcr.io/linuxserver/jellyfin@sha256:a363aa018edee61bcee46be5f8dbd0db2a317b2bc0f95121a46e522d798c2a63
     container_name: jellyfin
-    user: uid:gid
-    networks:
-      - host
+    ports:
+      - 8096:8096
+    environment:
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - /path/to/config:/config
-      - /path/to/cache:/cache
-    mounts:
-      - type: bind
-        source: /path/to/media
-        target: /media
+      - /home/ruler/jellyfin/config:/config
+      - /home/ruler/jellyfin/cache:/cache
     restart: unless-stopped
