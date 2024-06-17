@@ -12,6 +12,6 @@ services:
       - 80:80/tcp
       - 443:443/tcp
     volumes:
-      - ./workdir:/opt/adguardhome/work
-      - ./confdir:/opt/adguardhome/conf
+      - ./workdir:/home/ruler/AdGuardHome
+      - ./confdir:/home/ruler/AdGuardHome
     restart: unless-stopped
