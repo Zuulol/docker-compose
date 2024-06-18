@@ -1,13 +1,13 @@
-version: '3'
+---
 services:
     jellyseerr:
-       image: fallenbagel/jellyseerr:latest
+       image: fallenbagel/jellyseerr:1.9.2
        container_name: jellyseerr
        environment:
             - LOG_LEVEL=debug
-            - TZ=Asia/Tashkent
+            - TZ=America/New_York
        ports:
             - 5055:5055
        volumes:
-            - /path/to/appdata/config:/app/config
+            - /home/ruler/jellyseerr/config:/app/config
        restart: unless-stopped
