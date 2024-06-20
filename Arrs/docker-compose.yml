@@ -39,6 +39,7 @@ services:
 
   radarr:
     image: ghcr.io/linuxserver/radarr@sha256:79053c07400eec909d04ac97db760c30bf61471ec37465a50f126a3c825a92bc
+    container_name: radarr
     ports:
       - "7878:7878"
     volumes:
@@ -52,6 +53,7 @@ services:
 
   sonarr:
     image: ghcr.io/linuxserver/sonarr@sha256:275467ba17d990bbc6301dec3cc76b042969836749de39067818759d0f3b407f
+    container_name: sonarr
     ports:
       - "8989:8989"
     volumes:
