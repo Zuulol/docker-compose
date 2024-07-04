@@ -46,3 +46,12 @@ services:
     privileged: true
     network_mode: bridge
     restart: unless-stopped
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
+    container_name: flaresolverr
+    ports:
+      - '8191:8191'
+    environment:
+      - LOG_LEVEL=info
+    restart: unless-stopped
