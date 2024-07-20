@@ -68,3 +68,13 @@ services:
 networks:
   default:
     name: arrs_default
+
+
+jfa-go:
+    image: docker.mafyuh.xyz/hrfee/jfa-go
+    container_name: jfa-go
+    ports:
+     - "8056:8056"
+  volumes:
+   - /docker/appdata/jfa-go/config:/data
+   - /etc/localtime:/etc/localtime:ro
