@@ -74,6 +74,6 @@ services:
      - /docker/appdata/jfa-go/config:/data
      - /etc/localtime:/etc/localtime:ro
 
-  networks:
-   default:
+networks:
+  default:
     name: arrs_default
