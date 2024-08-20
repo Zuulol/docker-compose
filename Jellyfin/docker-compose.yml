@@ -1,7 +1,7 @@
 ---
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.9.8
+    image: jellyfin/jellyfin:10.9.9
     user: 113:121
     network_mode: 'host'
     restart: 'unless-stopped'
