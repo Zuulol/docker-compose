@@ -1,7 +1,7 @@
 ---
 services:
   bazarr:
-    image: ghcr.io/linuxserver/bazarr@sha256:68efaf4f9a6ea072b68e1a8a2925fdc00f931fb1c699d969cae9c16f394b1411
+    image: ghcr.io/linuxserver/bazarr@sha256:5baf571c177eda579fbaa080ade2135bce9097bc3c165f92d30e399df64d0bc4
     ports:
       - "6767:6767"
     volumes:
