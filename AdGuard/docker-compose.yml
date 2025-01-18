@@ -1,7 +1,7 @@
 ---
 services:
   adguardhome:
-    image: adguard/adguardhome:latest
+    image: adguard/adguardhome@sha256:2979cc78a28aceb77f90980a5440578dbb7bc406dffe261e9ae402750193bde0
     container_name: adguardhome
     ports:
       - 53:53/tcp
