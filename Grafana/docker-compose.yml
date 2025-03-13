@@ -22,18 +22,8 @@ services:
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_USER=ruler
-      - GF_SECURITY_ADMIN_PASSWORD=kalista23
-      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
-      - GF_AUTH_GENERIC_OAUTH_NAME=authentik
-      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=$GF_AUTH_GENERIC_OAUTH_CLIENT_ID
-      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=$GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
-      - GF_AUTH_GENERIC_OAUTH_SCOPES="openid profile email"
-      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=$AUTHENTIK_URL/application/o/authorize/
-      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=$AUTHENTIK_URL/application/o/token/
-      - GF_AUTH_GENERIC_OAUTH_API_URL=$AUTHENTIK_URL/application/o/userinfo/
-      - GF_AUTH_SIGNOUT_REDIRECT_URL=$AUTHENTIK_URL/application/o/grafana/end-session/
-      - GF_AUTH_OAUTH_AUTO_LOGIN=false
-      - GF_SERVER_ROOT_URL=$GF_SERVER_ROOT_URL
+      - GF_SECURITY_ADMIN_PASSWORD=$GF_SECURITY_ADMIN_PASSWORD
+
     user: "1000"
     volumes:
       - /docker/appdata/grafana:/var/lib/grafana
@@ -116,8 +106,8 @@ services:
     command: ["sonarr"]
     environment:
       PORT: 9707
-      URL: http://10.0.0.32:8989
-      APIKEY: fbab7e65e4f04f1f9beff3118c390ff9
+      URL: $SONARR_URL
+      APIKEY: $SONARR_API
     ports:
       - "9707:9707"
     restart: unless-stopped
@@ -129,8 +119,8 @@ services:
     command: ["radarr"]
     environment:
       PORT: 9708
-      URL: http://10.0.0.32:7878
-      APIKEY: 80bcc18605fe42daab11104bd92d6b46
+      URL: $RADARR_URL
+      APIKEY: $RADARR_API
     ports:
       - "9708:9708"
     restart: unless-stopped
@@ -142,8 +132,8 @@ services:
     command: ["prowlarr"]
     environment:
       PORT: 9710
-      URL: http://10.0.0.32:9696
-      APIKEY: 5dce8c731f15461f90932b30b0d4e0aa
+      URL: $PROWLARR_URL
+      APIKEY: $PROWLARR_API
       PROWLARR__BACKFILL: true
     ports:
       - "9710:9710"
@@ -156,8 +146,8 @@ services:
     command: ["sabnzbd"]
     environment:
       PORT: 9711
-      URL: http://10.0.0.37:8080
-      APIKEY: 282782a961d14c3db80fa68fccd18168
+      URL: $SAB_URL
+      APIKEY: $SAB_API
     ports:
       - "9711:9711"
     restart: unless-stopped
@@ -169,8 +159,8 @@ services:
     command: ["bazarr"]
     environment:
       PORT: 9712
-      URL: http://10.0.0.32:6767
-      APIKEY: 98d06813c3250d2df3a6b5d031bea01b
+      URL: $BAZARR_URL
+      APIKEY: $BAZARR_API
     ports:
       - "9712:9712"
     restart: unless-stopped
