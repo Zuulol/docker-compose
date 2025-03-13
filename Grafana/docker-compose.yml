@@ -199,7 +199,7 @@ services:
 
   graphite-exporter:
     command: --graphite.mapping-config=/tmp/graphite_mapping.conf
-        ports:
+    ports:
       - 9109:9109/udp
       - 9109:9109
       - 9108:9108
