@@ -133,7 +133,7 @@ services:
       APIKEY: 80bcc18605fe42daab11104bd92d6b46
     ports:
       - "9708:9708"
-          restart: unless-stopped
+    restart: unless-stopped
     networks:
       - grafana
   prowlarr-exporter:
