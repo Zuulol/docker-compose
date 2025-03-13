@@ -53,16 +53,6 @@ services:
     networks:
       - grafana
 
-  alertmanager:
-    image: prom/alertmanager:v0.27.0
-    restart: unless-stopped
-    volumes:
-          - /docker/appdata/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
-    ports:
-      - 9093:9093
-    networks:
-      - grafana
-
   ## Exporters
   snmp-exporter:
     image: prom/snmp-exporter:v0.26.0
