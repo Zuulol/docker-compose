@@ -1,0 +1,214 @@
+---
+services:
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - /docker/appdata/prometheus:/etc/prometheus
+      - prom_data:/prometheus
+    networks:
+      - grafana
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=ruler
+      - GF_SECURITY_ADMIN_PASSWORD=kalista23
+      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+      - GF_AUTH_GENERIC_OAUTH_NAME=authentik
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=$GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=$GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+      - GF_AUTH_GENERIC_OAUTH_SCOPES="openid profile email"
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=$AUTHENTIK_URL/application/o/authorize/
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=$AUTHENTIK_URL/application/o/token/
+      - GF_AUTH_GENERIC_OAUTH_API_URL=$AUTHENTIK_URL/application/o/userinfo/
+      - GF_AUTH_SIGNOUT_REDIRECT_URL=$AUTHENTIK_URL/application/o/grafana/end-session/
+      - GF_AUTH_OAUTH_AUTO_LOGIN=false
+      - GF_SERVER_ROOT_URL=$GF_SERVER_ROOT_URL
+    user: "1000"
+    volumes:
+      - /docker/appdata/grafana:/var/lib/grafana
+    networks:
+      - grafana
+
+  loki:
+    image: grafana/loki:3.3.2
+    container_name: loki
+    volumes:
+      - /docker/appdata/loki:/etc/loki
+    ports:
+      - "3100:3100"
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki-config.yml
+    networks:
+      - grafana
+
+  promtail:
+    image: grafana/promtail:3.3.2
+    container_name: promtail
+    volumes:
+      - /var/log:/var/log
+      - /docker/appdata/promtail:/etc/promtail
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/promtail-config.yml
+    networks:
+      - grafana
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    restart: unless-stopped
+    volumes:
+          - /docker/appdata/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+      - 9093:9093
+    networks:
+      - grafana
+
+  ## Exporters
+  snmp-exporter:
+    image: prom/snmp-exporter:v0.26.0
+    container_name: snmp-exporter
+    volumes:
+      - /docker/appdata/snmp:/etc/snmp_exporter
+    command: --config.file=/etc/snmp-exporter/snmp.yml
+    networks:
+      - grafana
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:v1.8.2
+    container_name: node_exporter
+    command: "--path.rootfs=/host"
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - /:/host:ro,rslave
+    networks:
+      - grafana
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.51.0
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /run:/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    devices:
+      - /dev/kmsg
+    privileged: true
+    restart: unless-stopped
+    networks:
+      - grafana
+
+  sonarr-exporter:
+    image: ghcr.io/onedr0p/exportarr:v2.0
+    container_name: sonarr-exporter
+    command: ["sonarr"]
+    environment:
+      PORT: 9707
+      URL: http://10.0.0.32:8989
+      APIKEY: fbab7e65e4f04f1f9beff3118c390ff9
+    ports:
+      - "9707:9707"
+    restart: unless-stopped
+    networks:
+      - grafana
+  radarr-exporter:
+    image: ghcr.io/onedr0p/exportarr:v2.0
+    container_name: radarr-exporter
+    command: ["radarr"]
+    environment:
+      PORT: 9708
+      URL: http://10.0.0.32:7878
+      APIKEY: 80bcc18605fe42daab11104bd92d6b46
+    ports:
+      - "9708:9708"
+          restart: unless-stopped
+    networks:
+      - grafana
+  prowlarr-exporter:
+    image: ghcr.io/onedr0p/exportarr:v2.0
+    container_name: prowlarr-exporter
+    command: ["prowlarr"]
+    environment:
+      PORT: 9710
+      URL: http://10.0.0.32:9696
+      APIKEY: 5dce8c731f15461f90932b30b0d4e0aa
+      PROWLARR__BACKFILL: true
+    ports:
+      - "9710:9710"
+    restart: unless-stopped
+    networks:
+      - grafana
+  sabnzbd-exporter:
+    image: ghcr.io/onedr0p/exportarr:v2.0
+    container_name: sabnzbd-exporter
+    command: ["sabnzbd"]
+    environment:
+      PORT: 9711
+      URL: http://10.0.0.37:8080
+      APIKEY: 282782a961d14c3db80fa68fccd18168
+    ports:
+      - "9711:9711"
+    restart: unless-stopped
+    networks:
+      - grafana
+  bazarr-exporter:
+    image: ghcr.io/onedr0p/exportarr:v2.0
+    container_name: bazarr-exporter
+    command: ["bazarr"]
+    environment:
+      PORT: 9712
+      URL: http://10.0.0.32:6767
+      APIKEY: 98d06813c3250d2df3a6b5d031bea01b
+    ports:
+      - "9712:9712"
+    restart: unless-stopped
+    networks:
+      - grafana
+
+  speedtest-exporter:
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.4
+    container_name: speedtest-exporter
+    ports:
+      - 9798:9798
+    restart: unless-stopped
+    networks:
+      - grafana
+
+  blackbox-exporter:
+    command: --config.file=/config/blackbox.yml
+    container_name: blackbox-exporter
+    image: quay.io/prometheus/blackbox-exporter:v0.25.0
+    volumes:
+      - /docker/appdata/blackbox/config:/config
+    ports:
+      - 9115:9115
+    networks:
+      - grafana
+
+  graphite-exporter:
+    command: --graphite.mapping-config=/tmp/graphite_mapping.conf
+        ports:
+      - 9109:9109/udp
+      - 9109:9109
+      - 9108:9108
+    networks:
+      - grafana
+
+
+networks:
+  grafana:
+
+volumes:
+  prom_data:
