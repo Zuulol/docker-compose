@@ -1,7 +1,7 @@
 ---
 services:
   portainer:
-    image: portainer/portainer-ce@sha256:449202d765d28ec443c1657fc1121aff92b8afcee6b58bcea36e1f0e81e8297c
+    image: portainer/portainer-ce@sha256:5f3f03a7d2e34fe836837f00183aa52ba1e914c9f51b9ef359aa5651a474ff5b
     container_name: portainer
     ports:
       - 8000:8000
