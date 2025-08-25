@@ -1,7 +1,7 @@
 ---
 services:
   sabnzbd:
-    image: ghcr.io/linuxserver/sabnzbd@sha256:52c1742ce29fbd0d83468ec1a59e80fce507adaa8b8a9cb6176f3aa97be303f4
+    image: ghcr.io/linuxserver/sabnzbd@sha256:5a3196d71c12603bb0e7ceb83e4b38876510b7ba008d174d7081b69d6dbabd55
     container_name: sabnzbd
     environment:
       - PUID=1000
