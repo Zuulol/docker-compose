@@ -1,6 +1,6 @@
 services:
   twingate-connector:
-    image: twingate/connector@sha256:785818e1c196005bfa49a049ff64a84f926fc85641c468385f187d3b4079935b
+    image: twingate/connector@sha256:32e05574be027b168ce0e556b8c8f45e6e07bc471925add3a1da3ef2258ca3f0
     environment:
       - TWINGATE_NETWORK=$TWINGATE_NETWORK
       - TWINGATE_ACCESS_TOKEN=$TWINGATE_ACCESS_TOKEN
