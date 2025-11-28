@@ -27,7 +27,7 @@ services:
       - PGID=1000
 
   prowlarr:
-    image: ghcr.io/linuxserver/prowlarr@sha256:643220338204525524db787ff38a607261597f49d1f550694acdb3e908e2b43e
+    image: ghcr.io/linuxserver/prowlarr@sha256:475853535de3de8441b87c1457c30f2e695f4831228b12b6b7274e9da409d874
     ports:
       - "9696:9696"
     volumes:
