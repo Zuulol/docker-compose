@@ -52,7 +52,7 @@ services:
       - PGID=3000
 
   sonarr:
-    image: ghcr.io/linuxserver/sonarr@sha256:fbe67c25693dc5f3de220c5691f374576ae265df782c16918cc071b630490bd7
+    image: ghcr.io/linuxserver/sonarr@sha256:60e5edcac39172294ad22d55d1b08c2c0a9fe658cad2f2c4d742ae017d7874de
     container_name: sonarr
     ports:
       - "8989:8989"
