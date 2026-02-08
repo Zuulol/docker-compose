@@ -31,7 +31,7 @@ services:
       - grafana
 
   loki:
-    image: grafana/loki:3.6.4
+    image: grafana/loki:3.6.5
     container_name: loki
     volumes:
       - /docker/appdata/loki:/etc/loki
