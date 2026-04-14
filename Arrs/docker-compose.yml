@@ -38,7 +38,7 @@ services:
       - PGID=1000
 
   radarr:
-    image: ghcr.io/linuxserver/radarr@sha256:cd70546fc97169788530386b42cf47ba1b16d091b4dc2264cd54099dd13c6f7f
+    image: ghcr.io/linuxserver/radarr@sha256:6f1dda18354ea7f28cead8f6d099fc8222498c3ae165f567d504ed04d70980d7
     container_name: radarr
     ports:
       - "7878:7878"
