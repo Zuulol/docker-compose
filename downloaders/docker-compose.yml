@@ -24,11 +24,11 @@ services:
       - TZ=America/New_York
       - USER=ruler # Optional: WebUI login
       - PASS=kalista23 # Optional: WebUI password
-      - WHITELIST=127.0.0.1,192.168.1.* # Allow local network access
+      - WHITELIST=127.0.0.1,10.0.0.* # Allow local network access
     volumes:
-      - /path/to/appdata/transmission:/config
-      - /path/to/downloads:/downloads
-      - /path/to/watch/folder:/watch # Optional: auto-start torrents
+      - /home/ruler/appdata/transmission:/config
+      - /mnt/storage/downloads:/downloads
+      - /mnt/storage/watch:/watch # Optional: auto-start torrents
     ports:
       - 9091:9091 # Web UI
       - 51413:51413 # Torrent traffic (TCP)
