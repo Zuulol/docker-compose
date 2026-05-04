@@ -15,38 +15,26 @@ services:
       - 8080:8080
     restart: unless-stopped
 
-  arch-qbittorrentvpn:
-    image: binhex/arch-qbittorrentvpn:5.2.0-1-03
-    container_name: qbittorrentvpn
-    volumes:
-      - '/docker/appdata/qbitty:/config'
-      - '/data/torrents/:/data/torrents'
-      - '/etc/localtime:/etc/localtime:ro'
-    ports:
-      - '49550:49550'
-      - '49551:8118'
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
     environment:
-      - VPN_ENABLED=yes
-      - VPN_PROV=protonvpn
-      - VPN_CLIENT=wireguard
-      - VPN_USER=rul3r23+pmp
-      - VPN_PASS=
-      - STRICT_PORT_FORWARD=yes
-      - LAN_NETWORK=10.0.0.0/24
-      - ENABLE_PRIVOXY=yes
-      - PUID=1000
-      - PGID=1000
-      - WEBUI_PORT=49550
-      - UMASK=1000
-      - DEBUG=false
-    cap_add:
-      - NET_ADMIN
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-    privileged: true
-    network_mode: bridge
+      - PUID=1000 # Matches your 'ruler' user ID
+      - PGID=1000 # Matches your 'ruler' group ID
+      - TZ=America/New_York
+      - USER=ruler # Optional: WebUI login
+      - PASS=kalista23 # Optional: WebUI password
+      - WHITELIST=127.0.0.1,192.168.1.* # Allow local network access
+    volumes:
+      - /path/to/appdata/transmission:/config
+      - /path/to/downloads:/downloads
+      - /path/to/watch/folder:/watch # Optional: auto-start torrents
+    ports:
+      - 9091:9091 # Web UI
+      - 51413:51413 # Torrent traffic (TCP)
+      - 51413:51413/udp # Torrent traffic (UDP)
     restart: unless-stopped
-
+    
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
     container_name: flaresolverr
