@@ -34,6 +34,19 @@ services:
       - 51413:51413 # Torrent traffic (TCP)
       - 51413:51413/udp # Torrent traffic (UDP)
     restart: unless-stopped
+
+    flood:
+    image: jesec/flood
+    container_name: flood
+    user: 1000:1000
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - /home/ruler/appdata/flood:/data
+    ports:
+      - 3000:3000 # This is your new "Pretty" UI port
+    command: --port 3000
+    restart: unless-stopped
     
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
