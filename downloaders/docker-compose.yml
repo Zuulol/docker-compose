@@ -35,7 +35,7 @@ services:
       - 51413:51413/udp # Torrent traffic (UDP)
     restart: unless-stopped
 
-    flood:
+  flood:
     image: jesec/flood
     container_name: flood
     user: 1000:1000
