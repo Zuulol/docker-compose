@@ -24,7 +24,8 @@ services:
       - TZ=America/New_York
       - USER=ruler # Optional: WebUI login
       - PASS=kalista23 # Optional: WebUI password
-      - WHITELIST=127.0.0.1,10.0.0.* # Allow local network access
+      - WHITELIST=127.0.0.1,10.0.0.*,172.16.0.0/12 # Allow local network access
+      - HOST_WHITELIST=transmission,10.0.0.37,10.0.0.* # Tells Transmission it's okay to be called 'transmission'
     volumes:
       - /home/ruler/appdata/transmission:/config
       - /mnt/storage/downloads:/downloads
