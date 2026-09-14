@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
     
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:v3.5.0
+    image: ghcr.io/flaresolverr/flaresolverr:v3.5.2
     container_name: flaresolverr
     ports:
       - '8191:8191'
